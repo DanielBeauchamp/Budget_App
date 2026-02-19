@@ -1,6 +1,6 @@
-import storage
-from budget_manager import BudgetManager
-from app_window import BudgetApp
+from budget_app import storage
+from budget_app.budget_manager import BudgetManager
+from budget_app.app_window import BudgetApp
 
 
 def main():
@@ -11,3 +11,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
