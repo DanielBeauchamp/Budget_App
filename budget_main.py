@@ -1,6 +1,6 @@
-from budget_app import storage
-from budget_app.budget_manager import BudgetManager
-from budget_app.app_window import BudgetApp
+import storage
+from budget_manager import BudgetManager
+from app_window import BudgetApp
 
 
 def main():

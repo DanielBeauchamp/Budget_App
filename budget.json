@@ -1,0 +1,19 @@
+{
+    "period": "2026-02",
+    "expenses": [
+        {
+            "category": "Food",
+            "amount": 50.0
+        },
+        {
+            "category": "Transportation",
+            "amount": 60.0
+        }
+    ],
+    "limits": {
+        "Food": 150.0,
+        "Transportation": 40.0,
+        "Entertainment": 100.0,
+        "Misc": 50.0
+    }
+}
