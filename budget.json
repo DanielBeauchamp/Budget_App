@@ -1,19 +1,46 @@
 {
-    "period": "2026-02",
-    "expenses": [
-        {
-            "category": "Food",
-            "amount": 50.0
-        },
-        {
-            "category": "Transportation",
-            "amount": 60.0
-        }
-    ],
+    "current_period": 3,
+    "expenses": [],
     "limits": {
         "Food": 150.0,
-        "Transportation": 40.0,
+        "Transportation": 400.0,
         "Entertainment": 100.0,
         "Misc": 50.0
-    }
+    },
+    "history": [
+        {
+            "period": 1,
+            "expenses": [
+                {
+                    "category": "Entertainment",
+                    "amount": 25.0
+                },
+                {
+                    "category": "Transportation",
+                    "amount": 50.0
+                }
+            ],
+            "limits": {
+                "Food": 150.0,
+                "Transportation": 40.0,
+                "Entertainment": 100.0,
+                "Misc": 50.0
+            }
+        },
+        {
+            "period": 2,
+            "expenses": [
+                {
+                    "category": "Transportation",
+                    "amount": 392.0
+                }
+            ],
+            "limits": {
+                "Food": 150.0,
+                "Transportation": 400.0,
+                "Entertainment": 100.0,
+                "Misc": 50.0
+            }
+        }
+    ]
 }

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 
 class BudgetApp:
@@ -11,6 +12,20 @@ class BudgetApp:
         self.update_totals()
 
     def build_ui(self):
+        # Period display
+        self.period_label = tk.Label(
+            self.root,
+            text=f"Period {self.manager.data['current_period']}",
+            font=("Arial", 14, "bold")
+        )
+        self.period_label.pack(pady=5)
+
+        # New Period button
+        tk.Button(
+            self.root,
+            text="Start New Period",
+            command=self.confirm_new_period
+        ).pack(pady=2)
         # Amount input
         tk.Label(self.root, text="Amount:").pack()
         self.amount_entry = tk.Entry(self.root)
@@ -104,6 +119,19 @@ class BudgetApp:
             text += "  (Exceeded)"
 
         self.totals_label.config(text=text, fg=color)
+
+    def confirm_new_period(self):
+        confirm = tk.messagebox.askyesno(
+            "Start New Period",
+            f"End Period {self.manager.data['current_period']} and start a new one?\n"
+            "Current expenses will be archived."
+        )
+        if confirm:
+            self.manager.reset_period()
+            self.period_label.config(
+                text=f"Period {self.manager.data['current_period']}"
+            )
+            self.update_totals()
 
     def run(self):
         self.root.mainloop()

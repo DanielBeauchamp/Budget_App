@@ -18,10 +18,18 @@ class BudgetManager:
         })
         self.storage.save_data(self.data)
 
-    def reset_period(self, new_period):
-        self.data["period"] = new_period
-        self.data["expenses"] = []
-        self.storage.save_data(self.data)
+    def reset_period(self):
+    # Archive the current period into history
+            self.data["history"].append({
+                "period": self.data["current_period"],
+                "expenses": list(self.data["expenses"]),  # copy, not reference
+                "limits": dict(self.data["limits"])        # copy, not reference
+            })
+
+            self.data["current_period"] += 1
+            self.data["expenses"] = []
+
+            self.storage.save_data(self.data)
 
     # -----------------------------
     # Limits
