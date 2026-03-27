@@ -26,6 +26,13 @@ class BudgetApp:
             text="Start New Period",
             command=self.confirm_new_period
         ).pack(pady=2)
+
+        tk.Button(
+        self.root,
+        text="View History",
+        command=self.open_history_viewer
+    ).pack(pady=2)
+        
         # Amount input
         tk.Label(self.root, text="Amount:").pack()
         self.amount_entry = tk.Entry(self.root)
@@ -70,6 +77,64 @@ class BudgetApp:
         # Totals
         self.totals_label = tk.Label(self.root, text="", justify=tk.LEFT)
         self.totals_label.pack(pady=10)
+
+    def open_history_viewer(self):
+        history = self.manager.data["history"]
+
+        if not history:
+            messagebox.showinfo("No History", "No past periods to display yet.")
+            return
+
+        # Create a child window
+        viewer = tk.Toplevel(self.root)
+        viewer.title("Period History")
+
+        # Period selector
+        tk.Label(viewer, text="Select Period:", font=("Arial", 11)).pack(pady=5)
+
+        period_numbers = [f"Period {entry['period']}" for entry in history]
+        selected_period = tk.StringVar(viewer)
+        selected_period.set(period_numbers[-1])  # default to most recent
+
+        dropdown = tk.OptionMenu(
+            viewer,
+            selected_period,
+            *period_numbers,
+            command=lambda _: update_history_display()
+        )
+        dropdown.pack()
+
+        # Display area
+        history_label = tk.Label(viewer, text="", justify=tk.LEFT, font=("Courier", 10))
+        history_label.pack(padx=20, pady=10)
+
+        def update_history_display():
+            # Find the selected period entry
+            period_num = int(selected_period.get().split()[1])
+            entry = next(e for e in history if e["period"] == period_num)
+
+            totals = self.manager.get_period_summary(entry)
+            limits = entry["limits"]
+            total_spent = sum(totals.values())
+            total_limit = sum(limits.values())
+
+            text = f"Period {period_num} Summary\n"
+            text += "-" * 30 + "\n"
+
+            for category, total in totals.items():
+                limit = limits.get(category, 0)
+                text += f"{category}: ${total:.2f} / ${limit:.2f}\n"
+
+            text += "-" * 30 + "\n"
+            text += f"Overall: ${total_spent:.2f} / ${total_limit:.2f}\n"
+
+            if not entry["expenses"]:
+                text += "\n(No expenses recorded)"
+
+            history_label.config(text=text)
+
+        # Populate on open
+        update_history_display()
 
     def add_expense(self, category):
         try:

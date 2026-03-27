@@ -47,6 +47,19 @@ class BudgetManager:
     # Calculations
     # -----------------------------
 
+    def get_period_summary(self, period_entry):
+        """Calculate totals for a historical period using its frozen limits."""
+        totals = {category: 0 for category in period_entry["limits"]}
+
+        for expense in period_entry["expenses"]:
+            cat = expense["category"]
+            if cat in totals:
+                totals[cat] += expense["amount"]
+            else:
+                totals[cat] = expense["amount"]  # handles any unexpected categories
+
+        return totals
+
     def calculate_totals(self):
         totals = {category: 0 for category in CATEGORIES}
 
